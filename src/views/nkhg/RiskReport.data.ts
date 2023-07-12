@@ -51,7 +51,8 @@ export const formSchema: FormSchema[] = [
     field: 'isSelf',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:""
+        dictCode:"yn",
+        onChange: (e) => {console.log(e)}
      },
   },
   {
