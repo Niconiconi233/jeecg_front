@@ -7,7 +7,7 @@
 <script lang="ts" setup>
     import {ref, computed, unref} from 'vue';
     import {BasicModal, useModalInner} from '/@/components/Modal';
-    import {BasicForm, useForm} from '/@/components/Form/index';
+    import {BasicForm, useForm} from '/@/components/Form';
     import {formSchema} from '../RiskReport.data';
     import {saveOrUpdate} from '../RiskReport.api';
     // Emits声明

@@ -45,20 +45,24 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
 ];
 //表单数据
+let is_show = false;
+
 export const formSchema: FormSchema[] = [
   {
     label: '是否自举',
     field: 'isSelf',
     component: 'JDictSelectTag',
+    required: true,
     componentProps:{
-        dictCode:"yn",
-        onChange: (e) => {console.log(e)}
-     },
+      dictCode: "yn",
+      showChooseOption: false,
+    }
   },
   {
     label: '被举报人',
     field: 'reportedPersion',
     component: 'JSearchSelect',
+    show: is_show,
     componentProps:{
        dict:""
     },
