@@ -22,7 +22,7 @@
             <j-dict-select-tag type='radio' v-model:value="formData.inUse" dictCode="yn" placeholder="请选择是否现用" :disabled="disabled" @change="handleRadioChange" stringToNumber=true />
           </a-form-item>
         </a-col>
-        <a-col :span="24" v-if="inuse">
+        <a-col :span="24" v-if="!inuse">
           <a-form-item label="失效时间" v-bind="validateInfos.failureTime">
 		        <a-date-picker placeholder="请选择失效时间" v-model:value="formData.failureTime" value-format="YYYY-MM-DD"  style="width: 100%" :disabled="disabled"/>
           </a-form-item>
