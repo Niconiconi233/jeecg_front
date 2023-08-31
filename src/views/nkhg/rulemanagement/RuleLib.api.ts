@@ -11,6 +11,7 @@ enum Api {
   deleteBatch = '/rulemanage/ruleLib/deleteBatch',
   importExcel = '/rulemanage/ruleLib/importExcel',
   exportXls = '/rulemanage/ruleLib/exportXls',
+  getFileUrl = "/rulemanage/ruleLib/getFileUrl",
 }
 
 /**
@@ -70,3 +71,5 @@ export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params }, { isTransformResponse: false });
 }
+
+export const getFileUrl = (params) => defHttp.get({url: Api.getFileUrl, params})

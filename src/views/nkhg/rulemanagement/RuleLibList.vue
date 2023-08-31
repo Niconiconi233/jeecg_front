@@ -64,7 +64,7 @@
       </template>
       <template #fileSlot="{text}">
         <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
-        <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
+        <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="minioDownload(text)">下载</a-button>
       </template>
     </BasicTable>
     <!-- 表单区域 -->
@@ -77,9 +77,12 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import { columns } from './RuleLib.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './RuleLib.api';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getFileUrl } from './RuleLib.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import RuleLibModal from './components/RuleLibModal.vue'
+
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createMessage } = useMessage();
 
   const formRef = ref();
   const queryParam = reactive<any>({});
@@ -213,7 +216,20 @@
     reload();
   }
   
-
+  function minioDownload(filename) {
+    if (!filename) {
+      createMessage.warning('未知的文件');
+      return;
+    }
+    if (filename.indexOf(',') > 0) {
+      filename = filename.substring(0, filename.indexOf(','));
+    }
+    console.log(filename)
+    let data = getFileUrl({fileName: filename, bizPath: "/temp"});
+    if (data) {
+      console.log(data)
+    }
+  }
 
 
 </script>

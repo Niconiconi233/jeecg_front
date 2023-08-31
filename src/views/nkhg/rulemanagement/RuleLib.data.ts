@@ -42,7 +42,7 @@ export const columns: BasicColumn[] = [
   {
     title: '文件地址',
     align: "center",
-    dataIndex: 'fileUrl',
+    dataIndex: 'fileName',
     slots: { customRender: 'fileSlot' },
   },
 ];
