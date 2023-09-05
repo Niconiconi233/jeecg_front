@@ -70,6 +70,9 @@
     <!-- 表单区域 -->
     <RuleLibModal ref="registerModal" @success="handleSuccess"></RuleLibModal>
   </div>
+  <div style="display: none">
+    <iframe id="pdfPreviewIframe" :src="url" frameborder="0" width="100%" height="550px" scrolling="auto"></iframe>
+  </div>
 </template>
 
 <script lang="ts" name="rulemanage-ruleLib" setup>
@@ -78,16 +81,21 @@
   import { useListPage } from '/@/hooks/system/useListPage';
   import { columns } from './RuleLib.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl, getFileUrl } from './RuleLib.api';
-  import { downloadFile } from '/@/utils/common/renderUtils';
   import RuleLibModal from './components/RuleLibModal.vue'
 
   import { useMessage } from '/@/hooks/web/useMessage';
+  import {getToken} from "/@/utils/auth";
+  import {useGlobSetting} from "/@/hooks/setting";
   const { createMessage } = useMessage();
 
   const formRef = ref();
   const queryParam = reactive<any>({});
   const toggleSearchStatus = ref<boolean>(false);
   const registerModal = ref();
+
+  const glob = useGlobSetting();
+  const url = ref(`${glob.domainUrl}/sys/common/pdf/pdfPreviewIframe`);
+
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -154,7 +162,15 @@
   async function handleDelete(record) {
     await deleteOne({ id: record.id }, handleSuccess);
   }
-   
+
+  function handleViewFile(record) {
+    getFileUrl({fileName: record.fileName, bizPath: "/temp"}).then(data=>{
+      let iframe = document.getElementById('pdfPreviewIframe');
+      let json = { title: record.title, token: data };
+      iframe.contentWindow.postMessage(json, '*');
+    })
+  }
+
   /**
    * 批量删除事件
    */
@@ -195,6 +211,9 @@
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         }
+      }, {
+        label: '查看',
+        onClick: handleViewFile.bind(null, record),
       }
     ]
   }
@@ -224,11 +243,9 @@
     if (filename.indexOf(',') > 0) {
       filename = filename.substring(0, filename.indexOf(','));
     }
-    console.log(filename)
-    let data = getFileUrl({fileName: filename, bizPath: "/temp"});
-    if (data) {
-      console.log(data)
-    }
+    getFileUrl({fileName: filename, bizPath: "/temp"}).then(data=>{
+      window.open(data);
+    })
   }
 
 

@@ -5,7 +5,7 @@ export const columns: BasicColumn[] = [
   {
     title: '制度标题',
     align: "center",
-    dataIndex: 'title'
+    dataIndex: 'title',
   },
   {
     title: '文号',
