@@ -84,7 +84,7 @@
   import RuleLibModal from './components/RuleLibModal.vue'
 
   import { useMessage } from '/@/hooks/web/useMessage';
-  import {getToken} from "/@/utils/auth";
+  import {getLoginBackInfo} from "/@/utils/auth";
   import {useGlobSetting} from "/@/hooks/setting";
   const { createMessage } = useMessage();
 
@@ -164,7 +164,8 @@
   }
 
   function handleViewFile(record) {
-    getFileUrl({fileName: record.fileName, bizPath: "/temp"}).then(data=>{
+    let dept = getLoginUserDept();
+    getFileUrl({fileName: record.fileName, bizPath: "/" + dept}).then(data=>{
       let iframe = document.getElementById('pdfPreviewIframe');
       let json = { title: record.title, token: data };
       iframe.contentWindow.postMessage(json, '*');
@@ -243,9 +244,23 @@
     if (filename.indexOf(',') > 0) {
       filename = filename.substring(0, filename.indexOf(','));
     }
-    getFileUrl({fileName: filename, bizPath: "/temp"}).then(data=>{
+    let dept = getLoginUserDept();
+    getFileUrl({fileName: filename, bizPath: "/" + dept}).then(data=>{
       window.open(data);
     })
+  }
+
+  function getLoginUserDept() {
+    let dept = getLoginBackInfo().departs[0];
+    console.log(dept);
+    if (dept == null) {
+      return "temp"
+    }
+    let deptName = dept.departName;
+    if(deptName == null || deptName == "") {
+      return "temp"
+    }
+    return deptName;
   }
 
 

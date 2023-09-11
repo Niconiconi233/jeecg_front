@@ -18,6 +18,7 @@ export function getToken() {
 export function getLoginBackInfo() {
   return getAuthCache(LOGIN_INFO_KEY);
 }
+
 /**
  * 获取租户id
  */

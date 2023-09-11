@@ -29,7 +29,7 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="文件地址" v-bind="validateInfos.fileUrl">
-	          <j-upload v-model:value="formData.fileUrl"  :disabled="disabled" ></j-upload>
+	          <j-upload v-model:value="formData.fileUrl"  :disabled="disabled" :biz-path="logUserDept.departName"></j-upload>
           </a-form-item>
         </a-col>
       </a-row>
@@ -38,16 +38,31 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
-  import { defHttp } from '/@/utils/http/axios';
+import {
+  ref,
+  reactive,
+  defineExpose,
+  nextTick,
+  defineProps,
+  computed,
+  onBeforeMount
+} from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import JDictSelectTag from '/@/components/Form/src/jeecg/components/JDictSelectTag.vue';
   import JUpload from '/@/components/Form/src/jeecg/components/JUpload/JUpload.vue';
   import { getValueType } from '/@/utils';
   import { saveOrUpdate } from '../RuleLib.api';
   import { Form } from 'ant-design-vue';
+  import {getLoginBackInfo} from "/@/utils/auth";
+
+  let logUserDept = ref(null)
 
   let inuse = ref(1);
+
+  onBeforeMount(()=>{
+    logUserDept.value = getLoginBackInfo().departs[0];
+    console.log(logUserDept);
+  });
 
   const handleRadioChange = (value) => {
     if(value == 1)
