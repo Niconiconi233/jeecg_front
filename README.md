@@ -1,11 +1,11 @@
 JEECG BOOT 低代码开发平台（Vue3前端）
 ===============
-当前最新版本： 3.5.1（发布时间：2023-04-20）
+当前最新版本： 3.5.4（发布时间：2023-09-04）
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE)
 [![](https://img.shields.io/badge/Author-北京敲敲云科技-orange.svg)](http://www.jeecg.com)
 [![](https://img.shields.io/badge/Blog-官方博客-blue.svg)](https://jeecg.blog.csdn.net)
-[![](https://img.shields.io/badge/version-3.5.1-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
+[![](https://img.shields.io/badge/version-3.5.4-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub stars](https://img.shields.io/github/stars/zhangdaiscott/jeecg-boot.svg?style=social&label=Stars)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg-boot.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg-boot)
 
@@ -36,14 +36,21 @@ JeecgBoot-Vue3采用 Vue3.0、Vite、 Ant-Design-Vue3、TypeScript 等新技术�
 | `jeecgboot-vue3` | Vue3版前端代码 | 
 | `jeecg-boot`    | SpringBoot后台项目（支持微服务）        | 
 
+## 开发环境搭建
+
+- [前端开发环境准备](https://help.jeecg.com/setup/dev.html)
+- [前端项目快速启动](https://help.jeecg.com/setup/startup.html)
+- [通过IDEA启动项目](https://help.jeecg.com/java/setup/idea/startup.html)
 
 ## 技术文档
 
 -   官方文档：[http://help.jeecg.com](http://help.jeecg.com)
 -   官方网站： [http://www.jeecg.com](http://www.jeecg.com)
--   在线演示：[低代码演示](http://boot3.jeecg.com) | [敲敲云零代码](https://www.qiaoqiaoyun.com)
--   快速入门：[常见问题](http://help.jeecg.com/qa.html) | [入门视频](https://www.bilibili.com/video/BV1V34y187Y9 "入门视频") |  [ 代码生成](http://help.jeecg.com/vue3/codegen/online.html)
+-   快速入门：[快速入门](http://jeecg.com/doc/quickstart) | [常见问题](http://help.jeecg.com/qa.html) | [视频教程](https://www.bilibili.com/video/BV1V34y187Y9 "入门视频") |  [ 代码生成](http://help.jeecg.com/vue3/codegen/online.html)
 -   QQ交流群：⑦791696430、683903138
+-   在线演示 ：  [Vue3演示](http://boot3.jeecg.com)  |  [Vue2演示](http://boot3.jeecg.com) | [APP演示](http://jeecg.com/appIndex)
+> 演示系统的登录账号密码，请点击 [获取账号密码](http://jeecg.com/doc/demo) 获取
+
 
 ## 安装与使用
 

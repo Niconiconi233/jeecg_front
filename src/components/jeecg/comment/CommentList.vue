@@ -88,7 +88,7 @@
   import { Comment, Tooltip } from 'ant-design-vue';
   import { useUserStore } from '/@/store/modules/user';
   import MyComment from './MyComment.vue';
-  import { list, saveOne, deleteOne, useCommentWithFile, useEmojiHtml, queryById } from './useComment';
+  import { list, saveOne, deleteOne, useCommentWithFile, useEmojiHtml, queryById, getGloablEmojiIndex } from './useComment';
   import { useMessage } from '/@/hooks/web/useMessage';
   import HistoryFileList from './HistoryFileList.vue';
   import { Popconfirm } from 'ant-design-vue';
@@ -247,7 +247,8 @@
         }
       });
 
-      const storageEmojiIndex = inject('$globalEmojiIndex')
+      // const storageEmojiIndex = inject('$globalEmojiIndex')
+      const storageEmojiIndex = getGloablEmojiIndex()
       const { getHtml } = useEmojiHtml(storageEmojiIndex);
       const bottomCommentRef = ref()
       function handleClickItem(){

@@ -1,4 +1,4 @@
-import { reactive, ref, unref, defineAsyncComponent, toRaw, markRaw } from 'vue';
+import { reactive, ref, unref, defineAsyncComponent, toRaw, markRaw, isRef, watch, onUnmounted } from 'vue';
 import { httpGroupRequest } from '/@/components/Form/src/utils/GroupRequest';
 import { defHttp } from '/@/utils/http/axios';
 import { filterMultiDictText } from '/@/utils/dict/JDictSelectUtil.js';
@@ -9,7 +9,19 @@ import { useRouter, useRoute } from 'vue-router';
 import { useMethods } from '/@/hooks/system/useMethods';
 import { importViewsFile } from '/@/utils';
 
-export function usePopBiz(props, tableRef?) {
+export function usePopBiz(ob, tableRef?) {
+  // update-begin--author:liaozhiyang---date:20230811---for：【issues/675】子表字段Popup弹框数据不更新
+  let props: any;
+  if (isRef(ob)) {
+    props = ob.value;
+    const stopWatch = watch(ob, (newVal) => {
+      props = newVal;
+    });
+    onUnmounted(() => stopWatch());
+  } else {
+    props = ob;
+  }
+  // update-end--author:liaozhiyang---date:20230811---for：【issues/675】子表字段Popup弹框数据不更新
   const { createMessage } = useMessage();
   //弹窗可视状态
   const visible = ref(false);
@@ -102,18 +114,20 @@ export function usePopBiz(props, tableRef?) {
     if (!selectedRowKeys || selectedRowKeys.length == 0) {
       selectRows.value = [];
     } else {
+      // update-begin--author:liaozhiyang---date:20230830---for：【issues/726】JPopup组件里的表格全选没有选中数据
+      selectRows.value = [];
       for (let i = 0; i < selectedRowKeys.length; i++) {
         let combineKey = combineRowKey(getRowByKey(selectedRowKeys[i]));
         let keys = unref(checkedKeys);
-        if (combineKey && keys.indexOf(combineKey) < 0) {
+        if (combineKey && keys.indexOf(combineKey) != -1) {
           let row = getRowByKey(selectedRowKeys[i]);
           row && selectRows.value.push(row);
         }
       }
+      // update-end--author:liaozhiyang---date:20230830---for：【issues/726】JPopup组件里的表格全选没有选中数据
     }
     checkedKeys.value = selectedRowKeys;
   }
-
   /**
    * 过滤没用选项
    * @param selectedRowKeys

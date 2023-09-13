@@ -67,6 +67,7 @@
       formConfig: {
         schemas: searchFormSchema,
       },
+      isTreeTable: true,
     },
     exportConfig: {
       name: '分类字典列表',

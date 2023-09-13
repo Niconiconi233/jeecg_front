@@ -101,7 +101,11 @@
       const toggleSearchStatus = ref(false);
       const attrs = useAttrs();
       const tableScroll = ref({ x: true });
-      const getBindValue = Object.assign({}, unref(props), unref(attrs));
+      // update-begin--author:liaozhiyang---date:20230811---for：【issues/675】子表字段Popup弹框数据不更新
+      const getBindValue = computed(() => {
+        return Object.assign({}, unref(props), unref(attrs));
+      });
+      // update-end--author:liaozhiyang---date:20230811---for：【issues/675】子表字段Popup弹框数据不更新
       const [
         {
           visibleChange,
@@ -198,6 +202,9 @@
         closeModal();
         checkedKeys.value = [];
         selectRows.value = [];
+        // update-begin--author:liaozhiyang---date:20230908---for：【issues/742】选择后删除默认仍然存在
+        tableRef.value.clearSelectedRowKeys();
+        // update-end--author:liaozhiyang---date:20230908---for：【issues/742】选择后删除默认仍然存在
       }
 
       /**
@@ -278,7 +285,7 @@
       white-space: nowrap;
     }
   }
-  :deep .jeecg-basic-table .ant-table-wrapper .ant-table-title {
+  :deep(.jeecg-basic-table .ant-table-wrapper .ant-table-title){
     min-height: 0;
   }
 </style>

@@ -53,7 +53,7 @@
   import { useModal } from '/@/components/Modal';
   import UploadChunk from './UploadChunk.vue';
   import 'emoji-mart-vue-fast/css/emoji-mart.css';
-  import { useEmojiHtml } from './useComment';
+  import { getGloablEmojiIndex, useEmojiHtml } from './useComment';
 
   const optionsName = {
     categories: {
@@ -220,7 +220,8 @@
         visibleEmoji.value = !visibleEmoji.value;
       }
       
-      const emojiIndex = inject('$globalEmojiIndex')
+      //const emojiIndex = inject('$globalEmojiIndex')
+      const emojiIndex = getGloablEmojiIndex()
       const { getHtml } = useEmojiHtml(emojiIndex);
 
       const commentHtml = computed(() => {
