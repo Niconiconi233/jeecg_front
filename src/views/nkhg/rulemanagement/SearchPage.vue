@@ -11,7 +11,7 @@
             <a-list-item-meta>
               <template #description>
                 <div :class="`${prefixCls}__content`">
-                  {{ item.content }}
+                  {{ item.title }}
                 </div>
                 <div :class="`${prefixCls}__action`">
                   <template v-for="action in actions" :key="action.icon">
@@ -20,7 +20,7 @@
                       {{ action.text }}
                     </div>
                   </template>
-                  <span :class="`${prefixCls}__time`">{{ item.time }}</span>
+                  <span :class="`${prefixCls}__time`">{{ item.createTime }}</span>
                 </div>
               </template>
               <template #title>
@@ -44,12 +44,14 @@
 </template>
 <script lang="ts">
 import { Tag } from 'ant-design-vue';
-import { defineComponent } from 'vue';
+import {defineComponent, onBeforeMount, ref} from 'vue';
 import Icon from '/@/components/Icon/index';
 import { BasicForm } from '/@/components/Form/index';
-import { actions, searchList, schemas } from './SearchPage.data';
+import { actions, schemas } from './SearchPage.data';
 import { PageWrapper } from '/@/components/Page';
 import { List } from 'ant-design-vue';
+
+import {getHotFileList} from "./SearchPage.api"
 
 export default defineComponent({
   components: {
@@ -62,15 +64,36 @@ export default defineComponent({
     AListItemMeta: List.Item.Meta,
   },
   setup() {
+    let fileList = ref([]);
+
+    onBeforeMount(() => {
+      getHotFileList({pageNo: 1, pageSize: 5, column: "viewCount", order: "desc"}).then(res => {
+        fileList.value = res.records;
+      })
+    });
+
+
     return {
       prefixCls: 'list-search',
-      list: searchList,
+      list: fileList,
       actions,
       schemas,
     };
   },
 });
+
+
+
+
+
+
 </script>
+
+
+
+
+
+
 <style lang="less" scoped>
 .list-search {
   &__header {

@@ -100,6 +100,15 @@ export const formSchema: FormSchema[] = [
     componentProps:{
      },
   },
+  {
+    label: "制度标签",
+    field: "tags",
+    component: "JSelectMultiple",
+    componentProps: {
+      triggerChange: true,
+      mode: 'multiple'
+    }
+  },
 	// TODO 主键隐藏字段，目前写死为ID
   {
     label: '',

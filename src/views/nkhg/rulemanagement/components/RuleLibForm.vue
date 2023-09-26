@@ -28,6 +28,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
+          <a-form-item label="制度标签" v-bind="validateInfos.tags">
+            <JSelectMultiple placeholder="请选择制度标签" v-model:value="formData.tags" dictCode="tags"></JSelectMultiple>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
           <a-form-item label="文件地址" v-bind="validateInfos.fileUrl">
 	          <j-upload v-model:value="formData.fileUrl"  :disabled="disabled" :biz-path="logUserDept.departName"></j-upload>
           </a-form-item>
@@ -54,10 +59,13 @@ import {
   import { saveOrUpdate } from '../RuleLib.api';
   import { Form } from 'ant-design-vue';
   import {getLoginBackInfo} from "/@/utils/auth";
+import JSelectMultiple from "@/components/Form/src/jeecg/components/JSelectMultiple.vue";
 
   let logUserDept = ref(null)
 
   let inuse = ref(1);
+
+  let tags = ref([]);
 
   onBeforeMount(()=>{
     logUserDept.value = getLoginBackInfo().departs[0];

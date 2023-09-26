@@ -1,7 +1,9 @@
 import { FormSchema } from '/@/components/Form/index';
 
+
 export const searchList = (() => {
   const result: any[] = [];
+
   for (let i = 0; i < 6; i++) {
     result.push({
       id: i,
