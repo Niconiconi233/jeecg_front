@@ -1,26 +1,29 @@
 <template>
-  <PageWrapper :class="prefixCls" title="搜索列表">
+  <PageWrapper :class="prefixCls" title="制度搜索">
     <template #headerContent>
       <BasicForm :class="`${prefixCls}__header-form`" :labelWidth="100" :schemas="schemas" :showActionButtonGroup="false" />
     </template>
 
-    <div :class="`${prefixCls}__container`">
-      <a-list>
+    <CollapseContainer title="最多搜索">
+      <div :class="`${prefixCls}__container`">
+      <a-list >
         <template v-for="item in list" :key="item.id">
           <a-list-item>
             <a-list-item-meta>
               <template #description>
                 <div :class="`${prefixCls}__content`">
-                  {{ item.content }}
+                  {{ item.title }}
                 </div>
                 <div :class="`${prefixCls}__action`">
-                  <template v-for="action in actions" :key="action.icon">
-                    <div :class="`${prefixCls}__action-item`">
-                      <Icon v-if="action.icon" :class="`${prefixCls}__action-icon`" :icon="action.icon" :color="action.color" />
-                      {{ action.text }}
-                    </div>
-                  </template>
-                  <span :class="`${prefixCls}__time`">{{ item.time }}</span>
+                  <div :class="`${prefixCls}__action-item`">
+                    <Icon v-if="actions[0].icon" :class="`${prefixCls}__action-icon`" :icon="actions[0].icon" :color="actions[0].color" />
+                    {{ item.startCount ? item.startCount : 0 }}
+                  </div>
+                  <div :class="`${prefixCls}__action-item`">
+                    <Icon v-if="actions[1].icon" :class="`${prefixCls}__action-icon`" :icon="actions[1].icon" :color="actions[1].color" />
+                    {{ item.viewCount ? item.viewCount : 0 }}
+                  </div>
+                  <span :class="`${prefixCls}__time`">{{ item.createTime }}</span>
                 </div>
               </template>
               <template #title>
@@ -30,7 +33,7 @@
                 <div>
                   <template v-for="tag in item.description" :key="tag">
                     <Tag class="mb-2">
-                      {{ tag }}
+                      {{ tag }}233
                     </Tag>
                   </template>
                 </div>
@@ -40,16 +43,20 @@
         </template>
       </a-list>
     </div>
+    </CollapseContainer>
   </PageWrapper>
 </template>
 <script lang="ts">
 import { Tag } from 'ant-design-vue';
-import { defineComponent } from 'vue';
+import {defineComponent, onBeforeMount, ref} from 'vue';
 import Icon from '/@/components/Icon/index';
 import { BasicForm } from '/@/components/Form/index';
-import { actions, searchList, schemas } from './SearchPage.data';
+import { actions, schemas } from './SearchPage.data';
 import { PageWrapper } from '/@/components/Page';
 import { List } from 'ant-design-vue';
+
+import {getHotFileList} from "./SearchPage.api"
+import { CollapseContainer } from '/@/components/Container';
 
 export default defineComponent({
   components: {
@@ -57,20 +64,42 @@ export default defineComponent({
     Tag,
     BasicForm,
     PageWrapper,
+    CollapseContainer,
     [List.name]: List,
     [List.Item.name]: List.Item,
     AListItemMeta: List.Item.Meta,
   },
   setup() {
+    let fileList = ref([]);
+
+    onBeforeMount(() => {
+      getHotFileList({pageNo: 1, pageSize: 10, column: "viewCount", order: "desc"}).then(res => {
+        fileList.value = res.records;
+      })
+    });
+
+
     return {
       prefixCls: 'list-search',
-      list: searchList,
+      list: fileList,
       actions,
       schemas,
     };
   },
 });
+
+
+
+
+
+
 </script>
+
+
+
+
+
+
 <style lang="less" scoped>
 .list-search {
   &__header {

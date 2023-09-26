@@ -85,7 +85,6 @@ export const formSchema: FormSchema[] = [
     field: 'inUse',
     component: 'JDictSelectTag',
     componentProps:{
-      dictCode: ""
     },
   },
   {
@@ -100,6 +99,15 @@ export const formSchema: FormSchema[] = [
     componentProps:{
      },
   },
+  {
+    label: "制度标签",
+    field: "tags",
+    component: "JSelectMultiple",
+    componentProps: {
+      triggerChange: true,
+      mode: 'multiple'
+    }
+  },
 	// TODO 主键隐藏字段，目前写死为ID
   {
     label: '',
@@ -107,4 +115,10 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     show: false,
   },
+  {
+    label: '',
+    field: 'fileName',
+    component: 'Input',
+    show: false,
+  }
 ];

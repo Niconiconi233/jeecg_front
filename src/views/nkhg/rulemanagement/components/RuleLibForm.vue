@@ -28,8 +28,13 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
+          <a-form-item label="制度标签" v-bind="validateInfos.tags">
+            <JSelectMultiple placeholder="请选择制度标签" v-model:value="formData.tags" dictCode="tags" :disabled="disabled"></JSelectMultiple>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
           <a-form-item label="文件地址" v-bind="validateInfos.fileUrl">
-	          <j-upload v-model:value="formData.fileUrl"  :disabled="disabled" :biz-path="logUserDept.departName"></j-upload>
+	          <j-upload v-model:value="formData.fileUrl" :disabled="disabled" :biz-path="logUserDept.departName"></j-upload>
           </a-form-item>
         </a-col>
       </a-row>
@@ -51,17 +56,19 @@ import {
   import JDictSelectTag from '/@/components/Form/src/jeecg/components/JDictSelectTag.vue';
   import JUpload from '/@/components/Form/src/jeecg/components/JUpload/JUpload.vue';
   import { getValueType } from '/@/utils';
-  import { saveOrUpdate } from '../RuleLib.api';
+  import {getFileUrl, saveOrUpdate} from '../RuleLib.api';
   import { Form } from 'ant-design-vue';
   import {getLoginBackInfo} from "/@/utils/auth";
+  import JSelectMultiple from "@/components/Form/src/jeecg/components/JSelectMultiple.vue";
 
   let logUserDept = ref(null)
 
   let inuse = ref(1);
 
+  let tags = ref([]);
+
   onBeforeMount(()=>{
     logUserDept.value = getLoginBackInfo().departs[0];
-    console.log(logUserDept);
   });
 
   const handleRadioChange = (value) => {
@@ -85,8 +92,10 @@ import {
     docNo: '',   
     dateOfIssuance: '',   
     inUse: 1,
-    failureTime: '',   
-    fileUrl: '',   
+    failureTime: '',
+    fileUrl: '',
+    fileName: '',
+    tags: '',
   });
   const { createMessage } = useMessage();
   const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
@@ -108,7 +117,6 @@ import {
     }
     return props.formDisabled;
   });
-
   
   /**
    * 新增
@@ -125,6 +133,7 @@ import {
       resetFields();
       //赋值
       Object.assign(formData, record);
+      console.log(formData)
     });
   }
 
@@ -165,7 +174,6 @@ import {
         confirmLoading.value = false;
       });
   }
-
 
   defineExpose({
     add,
