@@ -4,7 +4,8 @@
       <BasicForm :class="`${prefixCls}__header-form`" :labelWidth="100" :schemas="schemas" :showActionButtonGroup="false" />
     </template>
 
-    <div :class="`${prefixCls}__container`">
+    <CollapseContainer>
+      <div :class="`${prefixCls}__container`">
       <a-list>
         <template v-for="item in list" :key="item.id">
           <a-list-item>
@@ -42,14 +43,15 @@
         </template>
       </a-list>
     </div>
+    </CollapseContainer>
   </PageWrapper>
 </template>
 <script lang="ts">
 import { Tag } from 'ant-design-vue';
-import { defineComponent } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
 import Icon from '/@/components/Icon/index';
 import { BasicForm } from '/@/components/Form/index';
-import { actions, searchList, schemas } from './SearchPage.data';
+import { actions, schemas } from './SearchPage.data';
 import { PageWrapper } from '/@/components/Page';
 import { List } from 'ant-design-vue';
 
@@ -62,6 +64,7 @@ export default defineComponent({
     Tag,
     BasicForm,
     PageWrapper,
+    CollapseContainer,
     [List.name]: List,
     [List.Item.name]: List.Item,
     AListItemMeta: List.Item.Meta,
@@ -78,7 +81,7 @@ export default defineComponent({
 
     return {
       prefixCls: 'list-search',
-      list: searchList,
+      list: fileList,
       actions,
       schemas,
     };
