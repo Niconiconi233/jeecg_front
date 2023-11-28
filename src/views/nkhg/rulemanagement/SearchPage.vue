@@ -1,18 +1,17 @@
 <template>
-  <PageWrapper :class="prefixCls" title="制度搜索">
+  <PageWrapper :class="prefixCls" title="搜索列表">
     <template #headerContent>
       <BasicForm :class="`${prefixCls}__header-form`" :labelWidth="100" :schemas="schemas" :showActionButtonGroup="false" />
     </template>
 
-    <CollapseContainer title="最多搜索">
-      <div :class="`${prefixCls}__container`">
-      <a-list >
+    <div :class="`${prefixCls}__container`">
+      <a-list>
         <template v-for="item in list" :key="item.id">
           <a-list-item>
             <a-list-item-meta>
               <template #description>
                 <div :class="`${prefixCls}__content`">
-                  {{ item.title }}
+                  {{ item.content }}
                 </div>
                 <div :class="`${prefixCls}__action`">
                   <div :class="`${prefixCls}__action-item`">
@@ -33,7 +32,7 @@
                 <div>
                   <template v-for="tag in item.description" :key="tag">
                     <Tag class="mb-2">
-                      {{ tag }}233
+                      {{ tag }}
                     </Tag>
                   </template>
                 </div>
@@ -43,15 +42,14 @@
         </template>
       </a-list>
     </div>
-    </CollapseContainer>
   </PageWrapper>
 </template>
 <script lang="ts">
 import { Tag } from 'ant-design-vue';
-import {defineComponent, onBeforeMount, ref} from 'vue';
+import { defineComponent } from 'vue';
 import Icon from '/@/components/Icon/index';
 import { BasicForm } from '/@/components/Form/index';
-import { actions, schemas } from './SearchPage.data';
+import { actions, searchList, schemas } from './SearchPage.data';
 import { PageWrapper } from '/@/components/Page';
 import { List } from 'ant-design-vue';
 
@@ -64,7 +62,6 @@ export default defineComponent({
     Tag,
     BasicForm,
     PageWrapper,
-    CollapseContainer,
     [List.name]: List,
     [List.Item.name]: List.Item,
     AListItemMeta: List.Item.Meta,
@@ -81,25 +78,13 @@ export default defineComponent({
 
     return {
       prefixCls: 'list-search',
-      list: fileList,
+      list: searchList,
       actions,
       schemas,
     };
   },
 });
-
-
-
-
-
-
 </script>
-
-
-
-
-
-
 <style lang="less" scoped>
 .list-search {
   &__header {
